@@ -86,8 +86,11 @@ var WindowManager = function (stageWidth, stageHeight, xPadding)
 	{
 		for (var i = 0; i < level.windows.length; i++)
 		{
-			var position = this.stageParams.xPadding + (this.stageParams.width * level.positions[level.windows[i]]);
-			var winWidth = this.stageParams.width * level.windowWidth;
+			var buildingPadding = (this.stageParams.width * level.buildingPadding);
+			var width = this.stageParams.width - buildingPadding * 2;
+
+			var position = this.stageParams.xPadding + buildingPadding + (width * level.positions[level.windows[i]]);
+			var winWidth = width * level.windowWidth;
 			var winHeight = this.stageParams.height * level.windowHeight;
 
 			this.addWindow(new Window(position, this.topPosition, winWidth, winHeight));
@@ -147,8 +150,11 @@ var WindowManager = function (stageWidth, stageHeight, xPadding)
 					+ (win.sprite.y + win.sprite.getHeight()) + " > " + Math.floor(y));
 					console.log("X: " + win.sprite.x + " < " + Math.floor(x) + " && "
 					+ (win.sprite.x + win.sprite.getWidth()) + " > " + Math.floor(x));*/
-					returnWin = win;
-					break;
+					if (win.isFaded() == false)
+					{
+						returnWin = win;
+						break;
+					}
 				}
 			}
 		}

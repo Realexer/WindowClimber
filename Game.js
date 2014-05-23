@@ -58,7 +58,7 @@ var Game = function (canvas)
 
 	// INIT WORLD
 	this.world = this.Ds.phys2D.createWorld({
-		gravity: Config.game.gravity
+		gravity: Config.general.gravity
 	});
 
 
@@ -72,7 +72,7 @@ var Game = function (canvas)
 	});
 
 	this.draw2D.configure({
-		viewportRectangle: [0, 0, Config.game.vPortWidth, -Config.game.vPortHeight],
+		viewportRectangle: [0, 0, Config.general.vPortWidth, -Config.general.vPortHeight],
 		scaleMode: 'scale'
 	});
 
@@ -90,7 +90,7 @@ var Game = function (canvas)
 	this.materials = new Materials(this.Ds.phys2D);
 
 	// game objects
-	this.windowManager = new WindowManager(Config.game.levelWidth, Config.game.levelHeight, Config.game.xPadding);
+	this.windowManager = new WindowManager(Config.general.levelWidth, Config.general.levelHeight, Config.general.xPadding);
 	this.levelManager = new LevelManager(Levels);
 	this.bros = null;
 
@@ -105,13 +105,13 @@ var Game = function (canvas)
 	{
 		this.world.clear();
 
-		this.bros = new Bros(this.Ds.phys2D, this.world, Config.game.bros.size);
+		this.bros = new Bros(this.Ds.phys2D, this.world, Config.general.bros.size);
 
 		// reset windows
 		this.windowManager.clearWindows();
 		this.levelManager.reset();
 
-		this.windowManager.topPosition = -Config.game.levelHeight / 2;
+		this.windowManager.topPosition = -Config.general.levelHeight / 2;
 		this.windowManager.generateWindowsFromLevel(this.levelManager.getCurrentLevel());
 
 		var firstWindow = this.windowManager.getFirstWindow();
@@ -142,10 +142,10 @@ var Game = function (canvas)
 			}
 
 			this.bros.step(this.windowManager);
-			this.bros.drawCamera(this.draw2D, Config.game.vPortWidth, Config.game.vPortHeight);
+			this.bros.drawCamera(this.draw2D, Config.general.vPortWidth, Config.general.vPortHeight);
 
 
-			if (this.bros.isOutOfTheBounce(Config.game.vPortWidth, this.draw2D.getViewport()[3]))
+			if (this.bros.isOutOfTheBounce(Config.general.vPortWidth, this.draw2D.getViewport()[3]))
 			{
 				if (this.autoPlay.isActive == false)
 				{
@@ -161,8 +161,10 @@ var Game = function (canvas)
 			return;
 
 		// draw background
-		this.Ds.graphics.clear(Config.colors.background.building);
+		this.Ds.graphics.clear();
 
+		Background.drawBackground(this.draw2D.getViewport()[0], this.draw2D.getViewport()[1], Config.general.stageWidth, Config.general.stageHeight);
+		Background.drawBuilding(Config.general.xPadding, this.draw2D.getViewport()[1], Config.general.levelWidth, Config.general.stageHeight);
 
 		var windows = this.windowManager.getWindowsToDraw(this.draw2D.getViewport()[1], this.draw2D.getViewport()[3]);
 		Drawing.drawSprites(windows);

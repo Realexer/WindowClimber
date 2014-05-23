@@ -3,6 +3,7 @@ var Level = function (windowWidth, windowSpacing, windowHeight, positions, windo
 	this.windowWidth = (windowWidth != undefined) ? windowWidth : 0.5;
 	this.windowHeight = (windowHeight != undefined) ? windowHeight : 0.30;
 	this.windowSpacing = (windowSpacing != undefined) ? windowSpacing : 0.38;
+	this.buildingPadding = 0.1;
 	this.positions = (positions != undefined) ? positions : [0, 0.25, 0.5],
 	this.windows = (windows != undefined) ? windows : [];
 };

@@ -1,6 +1,6 @@
 var Config = new function ()
 {
-	this.game = {
+	this.general = {
 		stageWidth: 640,
 		stageHeight: 480,
 		vPortWidth: 640,
@@ -14,16 +14,16 @@ var Config = new function ()
 		levelHeight: null
 	};
 
-	this.game.levelWidth = this.game.stageWidth - this.game.xPadding * 2;
-	this.game.levelHeight = this.game.stageHeight;
+	this.general.levelWidth = this.general.stageWidth - this.general.xPadding * 2;
+	this.general.levelHeight = this.general.stageHeight;
 	
 	var broColor = Helper.color(252, 255, 157, 1.0);
 
 	this.colors =
 	{
 		background: {
-			building: Helper.color(152, 88, 69, 1.0),
-			back: Helper.color(255, 145, 42, 1.0)
+			building: Helper.color(118, 92, 81, 1.0),
+			back: Helper.color(253, 255, 195, 1.0)
 		},
 		windows: {
 			base: Helper.color(162, 201, 255, 1.0)
