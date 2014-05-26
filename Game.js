@@ -9,6 +9,7 @@ var Game = function (canvas)
 	this.welcome =
 	this.score = undefined;
 
+
 	this.playAgain = function ()
 	{
 		this.paused = false;
@@ -50,6 +51,16 @@ var Game = function (canvas)
 		fontManager: null,
 		shaderManager: null
 	};
+
+	this.textures = {
+		gripper: null,
+		gripperPh1: null,
+		gripperPh2: null,
+		window: null,
+		wall: null,
+		background: null
+	};
+
 	this.Ds.fontManager = FontManager.create(this.Ds.graphics, this.Ds.requestHandler);
 	this.Ds.shaderManager = ShaderManager.create(this.Ds.graphics, this.Ds.requestHandler);
 
@@ -90,7 +101,7 @@ var Game = function (canvas)
 	this.materials = new Materials(this.Ds.phys2D);
 
 	// game objects
-	this.windowManager = new WindowManager(Config.general.levelWidth, Config.general.levelHeight, Config.general.xPadding);
+	this.windowManager = null;
 	this.levelManager = new LevelManager(Levels);
 	this.bros = null;
 
@@ -99,13 +110,18 @@ var Game = function (canvas)
 	this.prepare = function ()
 	{
 		FontDrawing.init();
+		this.windowManager = new WindowManager(Config.general.levelWidth, Config.general.levelHeight, Config.general.xPadding, this.textures.window);
 	};
 
 	this.createWorld = function ()
 	{
 		this.world.clear();
 
-		this.bros = new Bros(this.Ds.phys2D, this.world, Config.general.bros.size);
+		this.bros = new Bros(this.Ds.phys2D, this.world, Config.general.bros.size, {
+			normal: this.textures.gripper,
+			active: this.textures.gripperPh1,
+			gripped: this.textures.gripperPh2
+		});
 
 		// reset windows
 		this.windowManager.clearWindows();
@@ -163,8 +179,8 @@ var Game = function (canvas)
 		// draw background
 		this.Ds.graphics.clear();
 
-		Background.drawBackground(this.draw2D.getViewport()[0], this.draw2D.getViewport()[1], Config.general.stageWidth, Config.general.stageHeight);
-		Background.drawBuilding(Config.general.xPadding, this.draw2D.getViewport()[1], Config.general.levelWidth, Config.general.stageHeight);
+		Background.drawBackground(this.draw2D.getViewport()[0], this.draw2D.getViewport()[1], Config.general.stageWidth, Config.general.stageHeight, this.textures.background);
+		Background.drawBuilding(this.draw2D.getViewport()[0], this.draw2D.getViewport()[1], Config.general.stageWidth, Config.general.stageHeight, this.textures.wall);
 
 		var windows = this.windowManager.getWindowsToDraw(this.draw2D.getViewport()[1], this.draw2D.getViewport()[3]);
 		Drawing.drawSprites(windows);
@@ -239,6 +255,34 @@ var Game = function (canvas)
 			FontDrawing.setFontShader(shaderObject);
 			loadedItems++;
 		});
+
+
+		// load textures
+		itemsRequried += loadImage("assets/images/Gripper.png", function (t) { game.textures.gripper = t; });
+		itemsRequried += loadImage("assets/images/GripperPhase1.png", function (t) { game.textures.gripperPh1 = t; });
+		itemsRequried += loadImage("assets/images/GripperPhase2.png", function (t) { game.textures.gripperPh2 = t; });
+		itemsRequried += loadImage("assets/images/Window.png", function (t) { game.textures.window = t; });
+		itemsRequried += loadImage("assets/images/Wall.png", function (t) { game.textures.wall = t; });
+		itemsRequried += loadImage("assets/images/Background.png", function (t) { game.textures.background = t; });
+
+
+		function loadImage(url, callback)
+		{
+			game.Ds.graphics.createTexture({
+				src: url,
+				mipmaps: true,
+				onload: function (texture)
+				{
+					if (texture)
+					{
+						callback(texture);
+						loadedItems++;
+					}
+				}
+			});
+
+			return 1;
+		}
 	};
 
 

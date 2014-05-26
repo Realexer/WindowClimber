@@ -1,6 +1,6 @@
 var Background = new function ()
 {
-	this.drawBuilding = function (x, y, width, height)
+	this.drawBuilding = function (x, y, width, height, texture)
 	{
 		Drawing.drawSingleSprite(Draw2DSprite.create({
 			x: x,
@@ -8,11 +8,13 @@ var Background = new function ()
 			width: width,
 			height: height,
 			origin: [0, 0],
-			color: Config.colors.background.building
-		}), this.draw2D);
+			texture: texture,
+			textureRectangle: [0, 0, texture.width, texture.height],
+			color: (!texture?Config.colors.background.building:null)
+		}));
 	};
 
-	this.drawBackground = function(x, y, width, height)
+	this.drawBackground = function(x, y, width, height, texture)
 	{
 		Drawing.drawSingleSprite(Draw2DSprite.create({
 			x: x,
@@ -20,7 +22,9 @@ var Background = new function ()
 			width: width,
 			height: height,
 			origin: [0, 0],
-			color: Config.colors.background.back
-		}), this.draw2D);
+			texture: texture,
+			textureRectangle: [0, 0, texture.width, texture.height],
+			color: (!texture ?Config.colors.background.back: null)
+		}));
 	};
 };

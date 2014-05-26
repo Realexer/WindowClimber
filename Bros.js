@@ -1,4 +1,4 @@
-var Bros = function (phys2D, world, size)
+var Bros = function (phys2D, world, size, textures)
 {
 	var bros = this;
 	this.world = world;
@@ -9,7 +9,24 @@ var Bros = function (phys2D, world, size)
 
 	var initialFixedBroYPos = 0;
 
-	
+	this.textures = {
+		normal: null,
+		active: null,
+		gripped: null
+	};
+
+	if (textures)
+	{
+		this.textures = textures;
+	}
+
+	function setTextureToBro(bro, texture)
+	{
+		bro.body.userData.setTexture(texture);
+		bro.body.userData.setTextureRectangle([0, 0, texture.width, texture.height]);
+	}
+
+
 	function createShape()
 	{
 		return phys2D.createCircleShape({
@@ -24,18 +41,21 @@ var Bros = function (phys2D, world, size)
 		});
 	};
 
-	function createBro(color, shape, fixed)
+	function createBro(color, shape, fixed, texture)
 	{
 		return {
 			fixed: fixed,
 			originColor: color,
+			originTexture: texture,
 			body: phys2D.createRigidBody({
 				shapes: [shape],
 				userData: Draw2DSprite.create({
 					width: size,
 					height: size,
 					origin: [size / 2, size / 2],
-					color: color
+					texture: texture,
+					textureRectangle: [0, 0, texture.width, texture.height],
+					color: (!texture ? color : null)
 				})
 			})
 		};
@@ -127,8 +147,8 @@ var Bros = function (phys2D, world, size)
 
 
 	// instance
-	this.blackBro = createBro(Config.colors.bros.blackBro, createShape(), true);
-	this.whiteBro = createBro(Config.colors.bros.whiteBro, createShape(), false);
+	this.blackBro = createBro(Config.colors.bros.blackBro, createShape(), true, this.textures.normal);
+	this.whiteBro = createBro(Config.colors.bros.whiteBro, createShape(), false, this.textures.normal);
 
 
 	var clutchPoint = phys2D.createRigidBody({
@@ -166,8 +186,19 @@ var Bros = function (phys2D, world, size)
 	this.step = function (windowManager)
 	{
 		// restore colors
-		this.whiteBro.body.userData.setColor(this.whiteBro.originColor);
-		this.blackBro.body.userData.setColor(this.blackBro.originColor);
+		if (this.whiteBro.originTexture == null)
+			this.whiteBro.body.userData.setColor(this.whiteBro.originColor);
+		else
+			setTextureToBro(this.whiteBro, this.whiteBro.originTexture);
+
+		if (this.blackBro.originTexture == null)
+			this.blackBro.body.userData.setColor(this.blackBro.originColor);
+		else
+			setTextureToBro(this.blackBro, this.blackBro.originTexture);
+
+
+
+
 
 		if (this.whiteBro.fixed == false && this.blackBro.fixed == false)
 		{
@@ -175,15 +206,21 @@ var Bros = function (phys2D, world, size)
 			var broToClutch = getBroToClutch(windowManager);
 			if (broToClutch)
 			{
-				broToClutch.body.userData.setColor(Config.colors.bros.clutch.free);
+				if (this.textures.active != null)
+					setTextureToBro(broToClutch, this.textures.active);
+				else
+					broToClutch.body.userData.setColor(Config.colors.bros.clutch.free);
 			}
 		}
 
 		var fixedBro = this.getFixedBro();
 		if (fixedBro)
 		{
-			fixedBro.body.userData.setColor(Config.colors.bros.clutch.fixed);
-
+			if (this.textures.active != null)
+				setTextureToBro(fixedBro, this.textures.gripped);
+			else
+				fixedBro.body.userData.setColor(Config.colors.bros.clutch.fixed);
+			
 
 			var windowBroIsOn = windowManager.getWindowAtPoing(fixedBro.body.getPosition()[0], fixedBro.body.getPosition()[1]);
 			if (windowBroIsOn == null)
@@ -196,7 +233,7 @@ var Bros = function (phys2D, world, size)
 	};
 
 	this.act = function (windowManager)
-	{	
+	{
 		if (this.getFixedBro() != null)
 		{
 			this.fly();

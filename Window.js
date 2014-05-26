@@ -1,4 +1,4 @@
-var Window = function (x, y, width, height, color)
+var Window = function (x, y, width, height, color, texture)
 {
 	this.passed = false;
 	this.timer = 0;
@@ -15,7 +15,9 @@ var Window = function (x, y, width, height, color)
 		x: x,
 		y: y,
 		origin: [0, 0],
-		color: color
+		texture: texture,
+		textureRectangle: [0, 0, texture.width, texture.height],
+		color: (!texture ? color : null)
 	});
 
 	this.act = function ()
@@ -34,12 +36,13 @@ var Window = function (x, y, width, height, color)
 	};
 };
 
-var WindowManager = function (stageWidth, stageHeight, xPadding)
+var WindowManager = function (stageWidth, stageHeight, xPadding, windowTexture)
 {
 	this.windows = [];
 	this.windowsToDraw = [];
 	this.topPosition = 0;
 	this.minWindowsInStack = 3;
+	this.windowTexture = windowTexture;
 
 	this.stageParams =
 	{
@@ -93,7 +96,7 @@ var WindowManager = function (stageWidth, stageHeight, xPadding)
 			var winWidth = width * level.windowWidth;
 			var winHeight = this.stageParams.height * level.windowHeight;
 
-			this.addWindow(new Window(position, this.topPosition, winWidth, winHeight));
+			this.addWindow(new Window(position, this.topPosition, winWidth, winHeight, null, this.windowTexture));
 
 			this.topPosition = this.topPosition - this.stageParams.height * level.windowSpacing;
 		}
