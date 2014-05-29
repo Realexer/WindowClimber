@@ -12,7 +12,7 @@ var Drawing = new function ()
 	{
 		this.physDraw2D = physDraw2D;
 	};
-	
+
 	this.drawShadowOverlay = function (viewPort, stageWidth, stageheight)
 	{
 		Drawing.drawSingleSprite(Draw2DSprite.create({

@@ -36,7 +36,12 @@ var Config = new function ()
 				free: Helper.color(255, 145, 42, 1.0),
 				fixed: Helper.color(189, 91, 3, 1.0)
 			},
-			constraint: broColor
+			constraint: Helper.color(164, 178, 234, 1.0)
+		},
+		font: {
+			regular: Helper.color(126, 255, 144, 1.0),
+			title: Helper.color(89, 203, 255, 1.0),
+			info: Helper.color(243, 255, 104, 1.0)
 		}
 	};
 };

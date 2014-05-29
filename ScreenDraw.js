@@ -11,18 +11,61 @@ var ScreenDraw = new function ()
 		var viewPort = this.draw2D.getViewport();
 		Drawing.drawShadowOverlay(viewPort, Config.general.stageWidth, Config.general.stageHeight);
 
-		FontDrawing.start();
-		FontDrawing.segmentText(viewPort[0] + 5, viewPort[1] + 5, "Paused", 10, 0.7);
+		FontDrawing.segmentTextWithShadow("Paused", {
+			x: Config.general.stageWidth / 2,
+			y: viewPort[1] + Config.general.stageHeight*.5, 
+			height: 10, 
+			scale: 1,
+			color: Config.colors.font.regular,
+			alignment: 1
+		});
 	};
 
 
-	this.gameOver = function (score)
+	this.gameOver = function (score, highscore)
 	{
 		var viewPort = this.draw2D.getViewport();
 		Drawing.drawShadowOverlay(viewPort, Config.general.stageWidth, Config.general.stageHeight);
 
-		FontDrawing.start(); 
-		FontDrawing.segmentText(viewPort[0] + 5, viewPort[1] + 5, "Game Over \nScore:" + score + "\n \npress 'space' to play again", 10, 0.7);
+		FontDrawing.segmentTextWithShadow("Game Over",
+			{
+				x: Config.general.stageWidth / 2,
+				y: viewPort[1] + Config.general.stageWidth * .1,
+				height: 10,
+				scale: 1.7,
+				color: Config.colors.font.info,
+				alignment: 1
+			});
+
+		FontDrawing.segmentTextWithShadow("Score: " + score,
+			{
+				x: Config.general.stageWidth / 2,
+				y: viewPort[1] + Config.general.stageWidth * .2,
+				height: 10,
+				scale: 1.2,
+				color: Config.colors.font.info,
+				alignment: 1
+			});
+
+		FontDrawing.segmentTextWithShadow("Highscore: " + highscore,
+			{
+				x: Config.general.stageWidth / 2,
+				y: viewPort[1] + Config.general.stageHeight * .35,
+				height: 10,
+				scale: 1,
+				color: Config.colors.font.regular,
+				alignment: 1
+			});
+
+		FontDrawing.segmentTextWithShadow("press 'space' to play again",
+			{
+				x: Config.general.stageWidth/2, 
+				y: viewPort[1] + Config.general.stageHeight*.55, 
+				height: 10, 
+				scale: .8,
+				color: Config.colors.font.regular,
+				alignment: 1
+			});
 	};
 
 	this.welcome = function ()
@@ -30,7 +73,37 @@ var ScreenDraw = new function ()
 		var viewPort = this.draw2D.getViewport();
 		Drawing.drawShadowOverlay(viewPort, Config.general.stageWidth, Config.general.stageHeight);
 
-		FontDrawing.start();
-		FontDrawing.segmentText(viewPort[0] + 5, viewPort[1] + 5, "Welcome to the game! \n\nPress 'space' to clutch or release", 10, 0.7);
+		FontDrawing.segmentTextWithShadow("Window Climber",
+			{
+				x: Config.general.stageWidth / 2,
+				y: viewPort[1] + Config.general.stageWidth * .1,
+				height: 25,
+				scale: 2,
+				color: Config.colors.font.title,
+				alignment: 1
+			});
+
+		FontDrawing.segmentTextWithShadow("Clutch to windows, rotate, release and fly to the top!",
+			{
+				x: Config.general.stageWidth / 2,
+				y: viewPort[1] + Config.general.stageWidth * .25,
+				height: 10,
+				scale: .8,
+				color: Config.colors.font.regular,
+				alignment: 1
+			});
+
+		FontDrawing.segmentTextWithShadow( "Controls:\n" +
+			" Space - clutch or release" +
+			"\n P - pause" +
+			"\n R - reset",
+			{
+				x: Config.general.stageWidth / 2,
+				y: viewPort[1] + Config.general.stageWidth*.4,
+				height:10, 
+				scale:.8,
+				color: Config.colors.font.regular,
+				alignment: 1
+			});
 	};
 };

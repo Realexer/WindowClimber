@@ -54,16 +54,39 @@ var FontDrawing = new function ()
 		this.graphicsD.setTechniqueParameters(this.fontDrawing.techniqueParams);
 	};
 
-	this.segmentText = function (x, y, text, height, scale)
+	this.segmentTextWithShadow = function (text, options)
 	{
-		var topLeft = this.draw2D.viewportUnmap(x, y);
-		var bottomRight = this.draw2D.viewportUnmap(x, y + height);
+		this.segmentText(text, options);
+		
+		var shadowOptions = {
+			x: options.x - 2,
+			y: options.y - 2,
+			color: Helper.color(0, 0, 0, 0.7),
+			scale: options.scale,
+			height: options.height,
+			alignment: options.alignment 
+		};
+	
+		this.segmentText(text, shadowOptions);
+	};
+
+	this.segmentText = function (text, options)
+	{
+		FontDrawing.start();
+		
+		var topLeft = this.draw2D.viewportUnmap(options.x, options.y);
+		var bottomRight = this.draw2D.viewportUnmap(options.x, options.y + options.height);
+
+		if (options.color)
+		{
+			this.fontDrawing.techniqueParams.color = options.color;
+		}
 
 		this.fontDrawing.font.drawTextRect(text, {
 			rect: [topLeft[0], topLeft[1], bottomRight[0] - topLeft[0], bottomRight[1] - topLeft[1]],
-			scale: scale,
+			scale: options.scale,
 			spacing: 0,
-			alignment: 0
+			alignment: (options.alignment ? options.alignment : 0)
 		});
 	};
-};
+};

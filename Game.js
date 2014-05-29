@@ -1,6 +1,7 @@
 var Game = function (canvas)
 {
 	this.debugEnabled = false;
+	this.updateInterval = null;
 
 	// game parameters
 	this.paused =
@@ -9,6 +10,7 @@ var Game = function (canvas)
 	this.welcome =
 	this.score = undefined;
 
+	this.highscore = 0;
 
 	this.playAgain = function ()
 	{
@@ -30,6 +32,7 @@ var Game = function (canvas)
 	{
 		this.autoPlay.reset();
 		this.autoPlay.start();
+
 		this.createWorld();
 	};
 
@@ -82,10 +85,6 @@ var Game = function (canvas)
 		graphicsDevice: this.Ds.graphics
 	});
 
-	this.draw2D.configure({
-		viewportRectangle: [0, 0, Config.general.vPortWidth, -Config.general.vPortHeight],
-		scaleMode: 'scale'
-	});
 
 	Drawing.setDraw2D(this.draw2D);
 	Drawing.setPhysDraw2D(this.physics2DDraw);
@@ -101,6 +100,7 @@ var Game = function (canvas)
 	this.materials = new Materials(this.Ds.phys2D);
 
 	// game objects
+	this.building = null;
 	this.windowManager = null;
 	this.levelManager = new LevelManager(Levels);
 	this.bros = null;
@@ -111,10 +111,35 @@ var Game = function (canvas)
 	{
 		FontDrawing.init();
 		this.windowManager = new WindowManager(Config.general.levelWidth, Config.general.levelHeight, Config.general.xPadding, this.textures.window);
+		this.building = new Building(Config.general.stageWidth, Config.general.stageHeight, this.textures.wall);
+	};
+
+	this.startUpdating = function ()
+	{
+		console.log("Updating started");
+
+		this.updateInterval = TurbulenzEngine.setInterval(function () { game.update(); }, 1000 / 60);
+	};
+
+	this.stopUpdating = function ()
+	{
+		if (this.updateInterval != null)
+		{
+			TurbulenzEngine.clearInterval(this.updateInterval);
+			this.updateInterval = null;
+		}
+
+		console.log("Updating Stopped");
 	};
 
 	this.createWorld = function ()
 	{
+		this.stopUpdating();
+
+		this.draw2D.configure({
+			viewportRectangle: [0, 0, Config.general.vPortWidth, -Config.general.vPortHeight]
+		});
+
 		this.world.clear();
 
 		this.bros = new Bros(this.Ds.phys2D, this.world, Config.general.bros.size, {
@@ -122,6 +147,10 @@ var Game = function (canvas)
 			active: this.textures.gripperPh1,
 			gripped: this.textures.gripperPh2
 		});
+
+
+		// building
+		this.building.reset();
 
 		// reset windows
 		this.windowManager.clearWindows();
@@ -133,12 +162,19 @@ var Game = function (canvas)
 		var firstWindow = this.windowManager.getFirstWindow();
 
 		this.bros.init(firstWindow.sprite.x + firstWindow.sprite.getWidth() / 2, firstWindow.sprite.y + firstWindow.sprite.getHeight() / 2);
+
+
+		game.startUpdating();
 	};
 
 
 
 	this.update = function ()
 	{
+		//console.log("Updating...");
+		if (!this.Ds.graphics.beginFrame())
+			return;
+
 		// run physics
 		if (this.paused == false)
 		{
@@ -154,9 +190,12 @@ var Game = function (canvas)
 				if (fixedBro && this.windowManager.isNewWindowPassed(fixedBro.body.getPosition()[1]))
 				{
 					this.score++;
+					this.highscore = Math.max(this.score, this.highscore);
+
 				}
 			}
 
+			this.windowManager.act();
 			this.bros.step(this.windowManager);
 			this.bros.drawCamera(this.draw2D, Config.general.vPortWidth, Config.general.vPortHeight);
 
@@ -169,18 +208,18 @@ var Game = function (canvas)
 				}
 
 				this.autoPlayAgain();
+				return;
 			}
 		}
 
-
-		if (!this.Ds.graphics.beginFrame())
-			return;
 
 		// draw background
 		this.Ds.graphics.clear();
 
 		Background.drawBackground(this.draw2D.getViewport()[0], this.draw2D.getViewport()[1], Config.general.stageWidth, Config.general.stageHeight, this.textures.background);
-		Background.drawBuilding(this.draw2D.getViewport()[0], this.draw2D.getViewport()[1], Config.general.stageWidth, Config.general.stageHeight, this.textures.wall);
+
+		Drawing.drawSprites(this.building.getBuildingToDraw(this.draw2D.getViewport()[1]));
+
 
 		var windows = this.windowManager.getWindowsToDraw(this.draw2D.getViewport()[1], this.draw2D.getViewport()[3]);
 		Drawing.drawSprites(windows);
@@ -191,19 +230,24 @@ var Game = function (canvas)
 		this.physics2DDraw.setPhysics2DViewport(this.draw2D.getViewport());
 		this.bros.drawConstraint(this.physics2DDraw);
 
-
-		// Draw texts
-		if (this.gameOver == false && this.autoPlay.isActive == false)
-		{
-			FontDrawing.start();
-
-			FontDrawing.segmentText(5, this.draw2D.getViewport()[1] + 5, "Score: " + this.score, 10, 0.7);
-		}
-
 		if (this.debugEnabled)
 		{
 			Drawing.drawPhysicsWorld(this.world);
 		}
+
+		// Draw texts
+		if (this.gameOver == false && this.autoPlay.isActive == false)
+		{
+			FontDrawing.segmentTextWithShadow("Score: " + this.score,
+				{
+					x: 5,
+					y: this.draw2D.getViewport()[1] + 5,
+					height: 10,
+					scale: 1,
+					color: Config.colors.font.regular
+				});
+		}
+
 
 		if (this.paused == true)
 		{
@@ -212,7 +256,7 @@ var Game = function (canvas)
 
 		if (this.gameOver == true)
 		{
-			ScreenDraw.gameOver(this.score);
+			ScreenDraw.gameOver(this.score, this.highscore);
 		}
 
 		if (this.welcome)
@@ -222,12 +266,8 @@ var Game = function (canvas)
 
 		this.Ds.graphics.endFrame();
 
-		this.windowManager.removePassedWindows(this.draw2D.getViewport()[3]);
-
-		if (this.windowManager.windows.length < this.windowManager.minWindowsInStack)
-		{
-			this.windowManager.generateWindowsFromLevel(this.levelManager.getNextLevel());
-		}
+		this.windowManager.update(this.draw2D.getViewport()[3], this.levelManager);
+		this.building.update(this.draw2D.getViewport()[3]);
 	};
 
 
@@ -239,7 +279,7 @@ var Game = function (canvas)
 	{
 		// loading font drawing data
 		var urlMapping = {
-			"fonts/bros.fnt": "assets/fonts/tz.fnt.json",
+			"fonts/bros.fnt": "assets/fonts/WindowClimber.fnt.json",
 			"shaders/font.cgfx": "assets/shaders/font.cgfx.json"
 		};
 		var assetPrefix = "";
@@ -338,7 +378,6 @@ var Game = function (canvas)
 					game.prepare();
 					game.reset();
 					game.GameControl.readInput();
-					TurbulenzEngine.setInterval(function () { game.update(); }, 1000 / 60);
 				}
 			}, 1000 / 60);
 		},

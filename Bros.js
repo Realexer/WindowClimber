@@ -3,6 +3,7 @@ var Bros = function (phys2D, world, size, textures)
 	var bros = this;
 	this.world = world;
 	this.distanceFlied = 0;
+	this.size = size;
 
 	var minDistance = 3;
 	var maxDistance = 3;
@@ -20,8 +21,11 @@ var Bros = function (phys2D, world, size, textures)
 		this.textures = textures;
 	}
 
-	function setTextureToBro(bro, texture)
+	function setTextureToBro(bro, texture, sizeIncrease)
 	{
+		sizeIncrease = sizeIncrease ? bros.size * sizeIncrease : bros.size;
+		bro.body.userData.setHeight(sizeIncrease);
+		bro.body.userData.setWidth(sizeIncrease);
 		bro.body.userData.setTexture(texture);
 		bro.body.userData.setTextureRectangle([0, 0, texture.width, texture.height]);
 	}
@@ -217,10 +221,10 @@ var Bros = function (phys2D, world, size, textures)
 		if (fixedBro)
 		{
 			if (this.textures.active != null)
-				setTextureToBro(fixedBro, this.textures.gripped);
+				setTextureToBro(fixedBro, this.textures.gripped, 2.0);
 			else
 				fixedBro.body.userData.setColor(Config.colors.bros.clutch.fixed);
-			
+
 
 			var windowBroIsOn = windowManager.getWindowAtPoing(fixedBro.body.getPosition()[0], fixedBro.body.getPosition()[1]);
 			if (windowBroIsOn == null)

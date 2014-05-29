@@ -102,6 +102,14 @@ var WindowManager = function (stageWidth, stageHeight, xPadding, windowTexture)
 		}
 	};
 
+	this.act = function ()
+	{
+		this.windowsToDraw.forEach(function (win)
+		{
+			win.act();
+		});
+	};
+
 	// yUp value is lower than yDown as we go up
 	this.getWindowsToDraw = function (yUp, yDown)
 	{
@@ -117,15 +125,14 @@ var WindowManager = function (stageWidth, stageHeight, xPadding, windowTexture)
 		}
 
 		var windows2Draw = [];
-		for (var i = 0; i < this.windowsToDraw.length; i++)
+
+		this.windowsToDraw.forEach(function (win)
 		{
-			var win = this.windowsToDraw[i];
-			win.act();
 			if (win.isFaded() == false)
 			{
 				windows2Draw.push(win.sprite);
 			}
-		}
+		});
 
 		return windows2Draw;
 	};
@@ -209,6 +216,16 @@ var WindowManager = function (stageWidth, stageHeight, xPadding, windowTexture)
 			{
 				break;
 			}
+		}
+	};
+
+	this.update = function(yDown, levelManager)
+	{
+		this.removePassedWindows(yDown);
+
+		if (this.windows.length < this.minWindowsInStack)
+		{
+			this.generateWindowsFromLevel(levelManager.getNextLevel());
 		}
 	};
 };
