@@ -10,8 +10,8 @@ is_multiplayer: false
 is_temp: false
 mapping_table: ''
 modified: 11:31 | 23/05/2014
-path: C:\Turbulenz\SDK\0.28.0\GripClimber
+path: C:\Turbulenz\SDK\0.28.0\WindowClimber
 plugin_main: ''
-slug: grip-climber
-title: Grip Climber
+slug: window-climber
+title: Window Climber
 title_logo: ''
