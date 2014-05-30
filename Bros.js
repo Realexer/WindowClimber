@@ -1,4 +1,4 @@
-var Bros = function (phys2D, world, size, textures)
+var Bros = function (phys2D, world, size, textures, sounds)
 {
 	var bros = this;
 	this.world = world;
@@ -16,6 +16,16 @@ var Bros = function (phys2D, world, size, textures)
 		gripped: null
 	};
 
+	this.sounds = {
+		clutch: null,
+		fly: null
+	};
+
+	if (sounds)
+	{
+		this.sounds = sounds;
+	}
+
 	if (textures)
 	{
 		this.textures = textures;
@@ -25,7 +35,7 @@ var Bros = function (phys2D, world, size, textures)
 	{
 		if (bro.body.userData.getTexture() == texture)
 			return;
-		
+
 		sizeIncrease = sizeIncrease ? bros.size * sizeIncrease : bros.size;
 		bro.body.userData.setHeight(sizeIncrease);
 		bro.body.userData.setWidth(sizeIncrease);
@@ -259,6 +269,7 @@ var Bros = function (phys2D, world, size, textures)
 	this.clutch = function (broToClutch, windowManager)
 	{
 		performClutch(this.world, broToClutch);
+
 		var fixedBro = this.getFixedBro();
 		if (fixedBro)
 		{
@@ -266,6 +277,7 @@ var Bros = function (phys2D, world, size, textures)
 		}
 
 		windowManager.fadeOutWindowAtApoint(broToClutch.body.getPosition()[0], broToClutch.body.getPosition()[1]);
+		SoundPlayer.play(this.sounds.clutch);
 	};
 
 
@@ -276,6 +288,8 @@ var Bros = function (phys2D, world, size, textures)
 			this.world.removeConstraint(clutchConstraint);
 			clutchConstraint = null;
 			this.blackBro.fixed = this.whiteBro.fixed = false;
+
+			SoundPlayer.play(this.sounds.fly);
 		}
 	};
 
