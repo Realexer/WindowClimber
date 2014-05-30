@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Window Climber</title>
+	<script>
+		var TurbulenzEngine = {};
+	</script>
+<script type="text/javascript" src="jslib/debug.js"></script>
+<script type="text/javascript" src="jslib/vmath.js"></script>
+<script type="text/javascript" src="jslib/utilities.js"></script>
+<script type="text/javascript" src="jslib/aabbtree.js"></script>
+<script type="text/javascript" src="jslib/observer.js"></script>
+<script type="text/javascript" src="jslib/webgl/ddsloader.js"></script>
+<script type="text/javascript" src="jslib/webgl/graphicsdevice.js"></script>
+<script type="text/javascript" src="jslib/webgl/inputdevice.js"></script>
+<script type="text/javascript" src="jslib/webgl/mathdevice.js"></script>
+<script type="text/javascript" src="jslib/webgl/networkdevice.js"></script>
+<script type="text/javascript" src="jslib/webgl/physicsdevice.js"></script>
+<script type="text/javascript" src="jslib/webgl/sounddevice.js"></script>
+<script type="text/javascript" src="jslib/webgl/soundtarloader.js"></script>
+<script type="text/javascript" src="jslib/webgl/tarloader.js"></script>
+<script type="text/javascript" src="jslib/webgl/tgaloader.js"></script>
+<script type="text/javascript" src="jslib/webgl/touch.js"></script>
+<script type="text/javascript" src="jslib/webgl/touchevent.js"></script>
+<script type="text/javascript" src="jslib/webgl/turbulenzengine.js"></script>
+<script type="text/javascript" src="jslib/requesthandler.js"></script>
+<script type="text/javascript" src="jslib/services/turbulenzservices.js"></script>
+<script type="text/javascript" src="jslib/services/turbulenzbridge.js"></script>
+<script type="text/javascript" src="jslib/services/gamesession.js"></script>
+<script type="text/javascript" src="jslib/services/mappingtable.js"></script>
+<script type="text/javascript" src="jslib/shadermanager.js"></script>
+<script type="text/javascript" src="jslib/physics2ddevice.js"></script>
+<script type="text/javascript" src="jslib/draw2d.js"></script>
+<script type="text/javascript" src="jslib/boxtree.js"></script>
+<script type="text/javascript" src="jslib/physics2ddebugdraw.js"></script>
+	<script type="text/javascript" src="jslib/textureeffects.js"></script>
+	<script type="text/javascript" src="jslib/fontmanager.js"></script>
+	
+	<!-- Jump Up-->
+	<script type="text/javascript" src="Helper.js"></script>
+	<script type="text/javascript" src="Config.js"></script>
+	<script type="text/javascript" src="Drawing.js"></script>
+	<script type="text/javascript" src="FontDrawing.js"></script>
+	<script type="text/javascript" src="ScreenDraw.js"></script>
+	<script type="text/javascript" src="Materials.js"></script>
+	<script type="text/javascript" src="Border.js"></script>
+	<script type="text/javascript" src="Platform.js"></script>
+	<script type="text/javascript" src="Bros.js"></script>
+	<script type="text/javascript" src="Camera.js"></script>
+	<script type="text/javascript" src="Levels.js"></script>
+	<script type="text/javascript" src="GameControl.js"></script>
+	<script type="text/javascript" src="Window.js"></script>
+	<script type="text/javascript" src="Building.js"></script>
+	<script type="text/javascript" src="Background.js"></script>
+	<script type="text/javascript" src="Autoplay.js"></script>
+	<script type="text/javascript" src="Game.js"></script>
+</head>
+	<body style="text-align: center;">
+		<canvas id="canvas" width="640px" height="480px" tabindex="1"></canvas>
+		<script>
+
+			var canvas = document.getElementById("canvas");
+			var game = new Game(canvas);
+			game.Setup();
+			game.Start();
+
+			window.onblur = function ()
+			{
+				//game.Pause();
+			};
+
+			window.onfocus = function ()
+			{
+				//canvas.focus();
+			};
+		</script>
+		
+	</body>
+</html>
