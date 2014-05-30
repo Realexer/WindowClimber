@@ -333,7 +333,10 @@ var Game = function (canvas)
 
 	this.pause = function ()
 	{
-		this.paused = !this.paused;
+		if (this.gameOver == false && this.welcome == false)
+		{
+			this.paused = !this.paused;
+		}
 	};
 
 	this.forcePause = function ()
