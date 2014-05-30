@@ -102,7 +102,7 @@ var ScreenDraw = new function ()
 				y: viewPort[1] + Config.general.stageWidth*.4,
 				height:10, 
 				scale:.8,
-				color: Config.colors.font.regular,
+				color: Config.colors.font.info,
 				alignment: 1
 			});
 	};
