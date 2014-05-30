@@ -368,7 +368,10 @@ var Game = function (canvas)
 		{
 			game.loadResources();
 		},
-
+		Focus: function ()
+		{
+			game.Ds.input.onFocus();
+		},
 		Start: function ()
 		{
 
@@ -381,6 +384,7 @@ var Game = function (canvas)
 					game.prepare();
 					game.reset();
 					game.GameControl.readInput();
+					game.Ds.input.onFocus();
 				}
 			}, 1000 / 60);
 		},

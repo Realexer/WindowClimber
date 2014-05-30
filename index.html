@@ -57,24 +57,25 @@
 	<script type="text/javascript" src="Game.js"></script>
 </head>
 	<body style="text-align: center;">
-		<canvas id="canvas" width="640px" height="480px" tabindex="1"></canvas>
+		<canvas id="canvas" width="640px" height="480px"></canvas>
 		<script>
+
 
 			var canvas = document.getElementById("canvas");
 			var game = new Game(canvas);
-			game.Setup();
-			game.Start();
-
-			window.onblur = function ()
-			{
-				//game.Pause();
+			
+			window.onload = function ()
+			{	
+				game.Setup();
+				game.Start();
 			};
 
 			window.onfocus = function ()
 			{
-				//canvas.focus();
+				game.Focus();
 			};
+
+			
 		</script>
-		
 	</body>
 </html>
