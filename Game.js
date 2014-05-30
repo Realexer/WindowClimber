@@ -50,6 +50,10 @@ var Game = function (canvas)
 		math: TurbulenzEngine.createMathDevice({}),
 		phys2D: Physics2DDevice.create(),
 		input: TurbulenzEngine.createInputDevice({}),
+		sound: TurbulenzEngine.createSoundDevice({
+			deviceSpecifier: "DirectSound Software",
+			linearDistance: true
+		}),
 		requestHandler: RequestHandler.create({}),
 		fontManager: null,
 		shaderManager: null
@@ -64,8 +68,16 @@ var Game = function (canvas)
 		background: null
 	};
 
+	this.sounds = {
+		bros: {
+			clutch: null,
+			fly: null
+		}
+	};
+
 	this.Ds.fontManager = FontManager.create(this.Ds.graphics, this.Ds.requestHandler);
 	this.Ds.shaderManager = ShaderManager.create(this.Ds.graphics, this.Ds.requestHandler);
+
 
 	// Game control
 	this.GameControl = new GameControl(this, this.Ds.input);
@@ -95,6 +107,7 @@ var Game = function (canvas)
 
 	ScreenDraw.setDraw2D(this.draw2D);
 
+	SoundPlayer.init(this.Ds.sound, this.Ds.math);
 
 	// get materials
 	this.materials = new Materials(this.Ds.phys2D);
@@ -146,7 +159,7 @@ var Game = function (canvas)
 			normal: this.textures.gripper,
 			active: this.textures.gripperPh1,
 			gripped: this.textures.gripperPh2
-		});
+		}, this.sounds.bros);
 
 
 		// building
@@ -305,6 +318,9 @@ var Game = function (canvas)
 		itemsRequried += loadImage("assets/images/Wall.png", function (t) { game.textures.wall = t; });
 		itemsRequried += loadImage("assets/images/Background.png", function (t) { game.textures.background = t; });
 
+		itemsRequried += loadSound("assets/sounds/Clutch.mp3", function (s) { game.sounds.bros.clutch = s; });
+		itemsRequried += loadSound("assets/sounds/Fly.mp3", function (s) { game.sounds.bros.fly = s; });
+
 
 		function loadImage(url, callback)
 		{
@@ -316,6 +332,25 @@ var Game = function (canvas)
 					if (texture)
 					{
 						callback(texture);
+						loadedItems++;
+					}
+				}
+			});
+
+
+			return 1;
+		}
+
+		function loadSound(url, callback)
+		{
+			game.Ds.sound.createSound({
+				src: url,
+				uncompress: false,
+				onload: function (s)
+				{
+					if (s)
+					{
+						callback(s);
 						loadedItems++;
 					}
 				}
