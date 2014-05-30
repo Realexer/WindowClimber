@@ -23,6 +23,9 @@ var Bros = function (phys2D, world, size, textures)
 
 	function setTextureToBro(bro, texture, sizeIncrease)
 	{
+		if (bro.body.userData.getTexture() == texture)
+			return;
+		
 		sizeIncrease = sizeIncrease ? bros.size * sizeIncrease : bros.size;
 		bro.body.userData.setHeight(sizeIncrease);
 		bro.body.userData.setWidth(sizeIncrease);
