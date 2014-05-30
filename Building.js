@@ -7,7 +7,7 @@ var Building = function (width, height, texture)
 	this.texture = texture;
 	this.sprites = [];
 
-	var requiredAmountOfSprites = 3;
+	var requiredAmountOfSprites = 4;
 
 	function getTopSprite(sprites)
 	{
