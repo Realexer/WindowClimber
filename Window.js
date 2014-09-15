@@ -3,6 +3,7 @@ var Window = function (x, y, width, height, color, texture)
 	this.passed = false;
 	this.timer = 0;
 	this.touched = false;
+	this.touching = false;
 
 	var lifeTime = 90; // 1.5 second
 
@@ -22,12 +23,12 @@ var Window = function (x, y, width, height, color, texture)
 
 	this.act = function ()
 	{
-		if (this.touched)
+		if (this.touching)
 		{
 			this.timer++;
 		}
 
-		this.sprite.setColor(Helper.colorWithAlpha(color, (lifeTime - this.timer)/lifeTime));
+		this.sprite.setColor(Helper.colorWithAlpha(color, (lifeTime - this.timer) / lifeTime));
 	};
 
 	this.isFaded = function ()
@@ -141,7 +142,7 @@ var WindowManager = function (stageWidth, stageHeight, xPadding, windowTexture)
 	this.isPointInOpenWindow = function (x, y)
 	{
 		var win = this.getWindowAtPoing(x, y);
-		return win != null && win.touched == false;
+		return win != null;
 	};
 
 	this.getWindowAtPoing = function (x, y)
@@ -178,6 +179,17 @@ var WindowManager = function (stageWidth, stageHeight, xPadding, windowTexture)
 		if (win)
 		{
 			win.touched = true;
+			win.touching = true;
+		}
+	};
+
+	this.stopFadingOutWindowAtPoint = function(x, y)
+	{
+		var win = this.getWindowAtPoing(x, y);
+		if (win)
+		{
+			win.touched = false;
+			win.touching = false;
 		}
 	};
 
@@ -219,7 +231,7 @@ var WindowManager = function (stageWidth, stageHeight, xPadding, windowTexture)
 		}
 	};
 
-	this.update = function(yDown, levelManager)
+	this.update = function (yDown, levelManager)
 	{
 		this.removePassedWindows(yDown);
 
