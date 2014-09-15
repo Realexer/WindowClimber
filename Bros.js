@@ -5,6 +5,8 @@ var Bros = function (phys2D, world, size, textures, sounds)
 	this.distanceFlied = 0;
 	this.size = size;
 
+	this.window = null;
+
 	var minDistance = 3;
 	var maxDistance = 3;
 
@@ -242,7 +244,7 @@ var Bros = function (phys2D, world, size, textures, sounds)
 			var windowBroIsOn = windowManager.getWindowAtPoing(fixedBro.body.getPosition()[0], fixedBro.body.getPosition()[1]);
 			if (windowBroIsOn == null)
 			{
-				this.fly();
+				this.fly(windowManager);
 			}
 		}
 
@@ -253,7 +255,7 @@ var Bros = function (phys2D, world, size, textures, sounds)
 	{
 		if (this.getFixedBro() != null)
 		{
-			this.fly();
+			this.fly(windowManager);
 		}
 		else
 		{
@@ -281,10 +283,11 @@ var Bros = function (phys2D, world, size, textures, sounds)
 	};
 
 
-	this.fly = function ()
+	this.fly = function (windowManager)
 	{
 		if (clutchConstraint)
 		{
+			windowManager.stopFadingOutWindowAtPoint(clutchConstraint.getAnchorA()[0], clutchConstraint.getAnchorA()[1]);
 			this.world.removeConstraint(clutchConstraint);
 			clutchConstraint = null;
 			this.blackBro.fixed = this.whiteBro.fixed = false;
