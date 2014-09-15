@@ -261,6 +261,15 @@ var Game = function (canvas)
 				});
 		}
 
+		FontDrawing.segmentTextWithShadow("Pilot version",
+			{
+				x: this.draw2D.getViewport()[2] - 140,
+				y: this.draw2D.getViewport()[1] + 5,
+				height: 10,
+				scale: 1,
+				color: Config.colors.font.info
+			});
+
 
 		if (this.paused == true)
 		{

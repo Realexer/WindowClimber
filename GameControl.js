@@ -12,6 +12,12 @@ var GameControl = function (game, inputD)
 		{
 			gControl.handleKeyUp(keyNum);
 		});
+
+
+		inputD.addEventListener('mouseup', function () 
+		{
+			gControl.handleMouseDown();
+		});
 	};
 
 	this.handleKeyDown = function (keyNum)
@@ -30,6 +36,11 @@ var GameControl = function (game, inputD)
 		{
 			game.pause();
 		}
+	};
+
+	this.handleMouseDown = function()
+	{
+		game.act();
 	};
 
 	this.handleKeyUp = function (keyNum)

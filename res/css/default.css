@@ -1,0 +1,95 @@
+body{
+    background-color: #f5f6f7;
+    font-family: 'PT Sans', sans-serif;
+}
+a, a:hover, a:visited, a:active
+{
+    color: #0083EB;
+    text-decoration: none;
+}
+
+h1 img {
+    height: 70px;
+}
+
+article{
+    text-align: center;
+}
+
+
+.clear {
+    clear: both;
+}
+
+.header
+{
+
+}
+
+.download
+{
+
+}
+
+.download a
+{
+
+}
+
+.download img
+{
+    height: 40px;
+}
+
+.side
+{
+    margin: 10px;
+}
+
+.side h4{
+}
+
+.top-side {
+    text-align: center;
+}
+
+.overview
+{
+    width: 900px;
+    margin: 0 auto;
+}
+
+.left-side {
+    float: left;
+}
+
+.middle-side {
+    float: left;
+    width: 440px;
+}
+
+.middle-side{
+    text-align: left;
+}
+
+.bottom-side {
+    padding-top: 10px;
+}
+
+.bottom-side img {
+    fleat: left;
+    width: 160px;
+    height: 248px;
+    margin: 5px;
+}
+
+.footer
+{
+    text-align: center;
+}
+
+.copyright
+{
+    margin-top: 20px;
+    text-align: center;
+}

@@ -57,7 +57,7 @@ var ScreenDraw = new function ()
 				alignment: 1
 			});
 
-		FontDrawing.segmentTextWithShadow("press 'space' to play again",
+		FontDrawing.segmentTextWithShadow("press 'space' or click to play again",
 			{
 				x: Config.general.stageWidth/2, 
 				y: viewPort[1] + Config.general.stageHeight*.55, 
@@ -76,14 +76,14 @@ var ScreenDraw = new function ()
 		FontDrawing.segmentTextWithShadow("Window Climber",
 			{
 				x: Config.general.stageWidth / 2,
-				y: viewPort[1] + Config.general.stageWidth * .1,
+				y: viewPort[1] + Config.general.stageWidth * .05,
 				height: 25,
 				scale: 2,
 				color: Config.colors.font.title,
 				alignment: 1
 			});
 
-		FontDrawing.segmentTextWithShadow("Clutch to windows, rotate, release and fly to the top!",
+			FontDrawing.segmentTextWithShadow("Use suction cups to stick to windows, swing,\njump from window to window\nand climb as high as you can!",
 			{
 				x: Config.general.stageWidth / 2,
 				y: viewPort[1] + Config.general.stageWidth * .25,
@@ -94,12 +94,12 @@ var ScreenDraw = new function ()
 			});
 
 		FontDrawing.segmentTextWithShadow( "Controls:\n" +
-			" Space - clutch or release" +
+			" Space or click - clutch or release" +
 			"\n P - pause" +
 			"\n R - reset",
 			{
 				x: Config.general.stageWidth / 2,
-				y: viewPort[1] + Config.general.stageWidth*.4,
+				y: viewPort[1] + Config.general.stageWidth*.5,
 				height:10, 
 				scale:.8,
 				color: Config.colors.font.info,
