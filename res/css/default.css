@@ -4,7 +4,7 @@ body{
 }
 a, a:hover, a:visited, a:active
 {
-    color: #007CEE;
+    color: #0C4E8A;
     text-decoration: none;
 }
 
@@ -14,6 +14,41 @@ h1 img {
 
 article{
     text-align: center;
+}
+
+.other-works
+{
+    text-align: center;
+}
+
+.graphic-link-handler
+{
+    text-align: center;
+    display: inline-block;
+    margin: 0 10px;
+    position: relative;
+}
+
+.other-works .graphic-link-handler .app-icon
+{
+    height: 80px;
+}
+
+.download .graphic-link-handler .app-icon
+{
+    height: 35px;
+}
+
+.graphic-link-handler .platform-icon
+{
+    position: absolute;
+    right: 0;
+    height: 23px;
+}
+
+.graphic-link-handler .caption
+{
+    font-size: 0.9em;
 }
 
 
@@ -76,8 +111,9 @@ article{
     padding-top: 10px;
 }
 
-.bottom-side img {
-    fleat: left;
+.bottom-side img 
+{
+    float: left;
     width: 160px;
     height: 248px;
     margin: 5px;

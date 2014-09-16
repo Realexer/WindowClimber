@@ -1,6 +1,6 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" lang="en">
 
-<html prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<html prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="Window Climber, Alexey Skrypnik, Games, Entertainment, challenge, relaxation, ios apps, app, appstore, app store, iphone, ipad, ipod touch, itouch, itunes" />
@@ -76,99 +76,28 @@
 	<script type="text/javascript" src="Autoplay.js"></script>
 	<script type="text/javascript" src="Game.js"></script>
 </head>
-<body>
-	
-	<header class="header">
-		<section class="side top-side">
-			<h1><a href="http://www.windowclimber.com"><img src="res/img/assets/WindowClimber.png" alt="Window Climber" title="Window Climber"/></a></h1>
-			<h3>Perfect combination of challenge and relaxation in one game!</h3>
-
-		</section>
-	</header>
-
-	<article>
-		<figure>
-		<!-- Game -->
-		<canvas id="canvas" width="640px" height="480px"></canvas>
-			<script>
-
-
-				var canvas = document.getElementById("canvas");
-				var game = new Game(canvas);
-			
-				window.onload = function ()
-				{	
-					game.Setup();
-					game.Start();
-				};
-
-				window.onfocus = function ()
-				{
-					game.Focus();
-				};
-
-			
-			</script>
-
-			<figcaption>
-				<a href="game.html">Click here to see the game only</a>
-			</figcaption>
-
-		</figure>
-
-		<h4>Links</h4>
-		<section class="download">
-			<a href="https://itunes.apple.com/us/app/window-climber/id894316044">
-				<img src="res/img/assets/app_store_icon.png" title="App Store link" alt="App Store link"/>
-			</a>
-			<figure class="graphic-link-handler">
-				<a href="http://realexer.github.io/WindowClimber/">
-					<img src="res/img/assets/HTML5_Icon.png" class="app-icon" title="HTML5 pilot version" alt="HTML5 pilot version"/>
-					<figcaption class="caption"><b>Play Online</b></figcaption>
-				</a>
-			</figure>
-
-			<span class="fb-like" data-href="https://www.facebook.com/window.climber.game" data-width="50" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></span>
-
-			<h3><a href="http://www.windowclimber.com">www.windowclimber.com</a></h3>
-		</section>
-
-		<h3>Leave your feedback</h3>
-		<div class="fb-comments" data-href="http://realexer.github.io/WindowClimber/" data-width="600" data-numposts="10" data-colorscheme="light"></div>
-	</article>
+<body style="text-align: center;">
 		
-	<footer class="clear footer">
-		<h4></h4>
-		<section class="download">
-			<a href="https://itunes.apple.com/us/app/window-climber/id894316044">
-				<img src="res/img/assets/app_store_icon.png" title="App Store link" alt="App Store link"/>
-			</a>
+	<!-- Game -->
+	<canvas id="canvas" width="640px" height="480px"></canvas>
+	<script>
+
+
+		var canvas = document.getElementById("canvas");
+		var game = new Game(canvas);
 			
-			<figure class="graphic-link-handler">
-                <a href="http://realexer.github.io/WindowClimber/">
-                    <img src="res/img/assets/HTML5_Icon.png" class="app-icon" title="HTML5 pilot version" alt="HTML5 pilot version"/>
-                    <figcaption class="caption"><b>Play Online</b></figcaption>
-                </a>
-            </figure>
+		window.onload = function ()
+		{	
+			game.Setup();
+			game.Start();
+		};
 
-
-			<span class="fb-like" data-href="https://www.facebook.com/window.climber.game" data-width="50" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></span>
-		</section>
-		<section class="copyright">
-			<a href="https://www.facebook.com/realexer">Alexey Skrypnik (realexer) (c)</a>
-		</section>
-	</footer>
-		
-	<!-- Facebook api -->
-	<div id="fb-root"></div>
-	<script>			(function (d, s, id)
+		window.onfocus = function ()
 		{
-			var js, fjs = d.getElementsByTagName(s)[0];
-			if (d.getElementById(id)) return;
-			js = d.createElement(s); js.id = id;
-			js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
-			fjs.parentNode.insertBefore(js, fjs);
-		} (document, 'script', 'facebook-jssdk'));
+			game.Focus();
+		};
+
+			
 	</script>
 
 	<!-- Google Analytics -->
