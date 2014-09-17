@@ -83,10 +83,10 @@ var ScreenDraw = new function ()
 				alignment: 1
 			});
 
-			FontDrawing.segmentTextWithShadow("Use suction cups to stick to windows, swing,\njump from window to window\nand climb as high as you can!",
+			FontDrawing.segmentTextWithShadow("Stick to windows, \nswing,\njump from window to window\nand\n climb as high as you can!",
 			{
 				x: Config.general.stageWidth / 2,
-				y: viewPort[1] + Config.general.stageWidth * .25,
+				y: viewPort[1] + Config.general.stageWidth * .2,
 				height: 10,
 				scale: .8,
 				color: Config.colors.font.regular,
